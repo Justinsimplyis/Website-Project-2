@@ -95,7 +95,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin';
                     <i class="fa fa-tasks"></i>
                 </a>
                  <!-- chat -->
-                <a href="chat.php" class="btn btn-light" style="font-weight:bolder; color:orange;">
+                <a href="chat.php" class="btn btn-light" style="font-weight:bolder; color:purple;">
                     <i class="fa fa-comments"></i>
                 </a>
 
@@ -104,7 +104,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin';
                         <button class="btn btn-light" type="button" id="searchToggle">
                             <i class="fa fa-search"></i>
                         </button>
-                        <div class="search-form" style="display: none; position: absolute; top: 40px; right: 0; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px; z-index: 1000;">
+                        <div class="search-form" style="color: pink;display: none; position: absolute; top: 40px; right: 0; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px; z-index: 1000;">
                             <form method="GET" id="searchForm">
                                 <div class="input-group">
                                     <input type="text" name="search" class="form-control" placeholder="Search users..." id="searchInput">
@@ -136,12 +136,10 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin';
                     <i class="fa fa-user-circle"></i>
                 </a>
 
-                <!-- Logout -->
-                <a href="logout.php" class="btn btn-light"
-                   onclick="return confirm('Are you sure you want to logout?')"
-                   style="font-weight:bolder; color:green;">
-                    Logout
-                </a>
+               <!-- Logout Trigger -->
+                <button class="btn btn-light" type="button" data-bs-toggle="modal" data-bs-target="#logoutModal" style="font-weight:bolder; color:red;">
+                <i class="fa fa-sign-out"></i>               
+                </button>
 
             </div>
         </div>
@@ -149,6 +147,35 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin';
 </nav>
 <div>
 
+</div>
+<!-- Logout Confirmation Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background: rgba(15, 32, 39, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; color: white;">
+            
+            <div class="modal-header" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <h5 class="modal-title" id="logoutModalLabel">
+                    <i class="fa fa-exclamation-triangle" style="color: #ffc107;"></i> Confirm Logout
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body">
+                <p class="mb-0" style="font-size: 1.1rem;">Are you sure you want to logout?</p>
+            </div>
+            
+            <div class="modal-footer" style="border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px;">
+                    Cancel
+                </button>
+                <!-- The actual link that processes the logout -->
+                <a href="logout.php" class="btn btn-danger" style="border-radius: 10px; font-weight: bold;">
+                    <i class="fa fa-sign-out"></i> Yes, Logout
+                </a>
+            </div>
+            
+        </div>
+    </div>
 </div>
 
 <script>
