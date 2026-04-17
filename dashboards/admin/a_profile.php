@@ -416,7 +416,7 @@ if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPL
     </div>
     
 
-    <!-- Followers Modal -->
+        <!-- Followers Modal -->
     <div class="modal fade" id="followersModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -433,7 +433,11 @@ if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPL
                                          width="40" height="40" style="border-radius:50%; object-fit:cover;">
                                     <strong><?php echo htmlspecialchars($user['username']); ?></strong>
                                 </div>
-                                <a href="/api/profile_view.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">View</a>
+                                <!-- Added Message Button -->
+                                <div class="d-flex gap-1">
+                                    <a href="/api/profile_view.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">View</a>
+                                    <a href="/api/models/chat.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-success"><i class="fa fa-comment"></i> Message</a>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -461,8 +465,10 @@ if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPL
                                          width="40" height="40" style="border-radius:50%; object-fit:cover;">
                                     <strong><?php echo htmlspecialchars($user['username']); ?></strong>
                                 </div>
+                                <!-- Added Message Button -->
                                 <div class="d-flex gap-1">
-                                    <a href="/api/profile_view.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">View</a>                                   
+                                    <a href="/api/profile_view.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">View</a>
+                                    <a href="/api/models/chat.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-success"><i class="fa fa-comment"></i> Message</a>                                   
                                 </div>
                             </div>
                         <?php endforeach; ?>

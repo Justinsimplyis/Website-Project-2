@@ -624,30 +624,27 @@ if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPL
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fa fa-users"></i> Followers
-                    </h5>
+                    <h5 class="modal-title">Followers</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <?php if(count($followers) > 0): ?>
                         <?php foreach($followers as $user): ?>
-                            <div class="user-card">
-                                <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <div class="d-flex align-items-center gap-2">
                                     <img src="<?php echo !empty($user['profile_image']) ? htmlspecialchars($user['profile_image']) : 'https://cdn-icons-png.flaticon.com/512/295/295128.png'; ?>"
-                                         class="user-avatar">
+                                         width="40" height="40" style="border-radius:50%; object-fit:cover;">
                                     <strong><?php echo htmlspecialchars($user['username']); ?></strong>
                                 </div>
-                                <a href="/api/profile_view.php?id=<?php echo $user['id']; ?>" class="btn btn-glass btn-sm">
-                                    <i class="fa fa-eye"></i> View
-                                </a>
+                                <!-- Added Message Button -->
+                                <div class="d-flex gap-1">
+                                    <a href="/api/profile_view.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">View</a>
+                                    <a href="/api/models/chat.php?user_id=<?php echo $user['id']; ?>" class="btn btn-sm btn-success"><i class="fa fa-comment"></i> Message</a>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="text-center text-muted p-4">
-                            <i class="fa fa-users fa-3x mb-3"></i>
-                            <p>No followers yet</p>
-                        </div>
+                        <p>No followers yet</p>
                     <?php endif; ?>
                 </div>
             </div>
@@ -659,32 +656,27 @@ if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPL
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fa fa-user-plus"></i> Following
-                    </h5>
+                    <h5 class="modal-title">Following</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <?php if(count($following) > 0): ?>
                         <?php foreach($following as $user): ?>
-                            <div class="user-card">
-                                <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <div class="d-flex align-items-center gap-2">
                                     <img src="<?php echo !empty($user['profile_image']) ? htmlspecialchars($user['profile_image']) : 'https://cdn-icons-png.flaticon.com/512/295/295128.png'; ?>"
-                                         class="user-avatar">
+                                         width="40" height="40" style="border-radius:50%; object-fit:cover;">
                                     <strong><?php echo htmlspecialchars($user['username']); ?></strong>
                                 </div>
-                                <div class="d-flex gap-2">
-                                    <a href="/api/profile_view.php?id=<?php echo $user['id']; ?>" class="btn btn-glass btn-sm">
-                                        <i class="fa fa-eye"></i> View
-                                    </a>
+                                <!-- Added Message Button -->
+                                <div class="d-flex gap-1">
+                                    <a href="/api/profile_view.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">View</a>
+                                    <a href="/api/models/chat.php?user_id=<?php echo $user['id']; ?>" class="btn btn-sm btn-success"><i class="fa fa-comment"></i> Message</a>                                   
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="text-center text-muted p-4">
-                            <i class="fa fa-user-plus fa-3x mb-3"></i>
-                            <p>You are not following anyone</p>
-                        </div>
+                        <p>You are not following anyone</p>
                     <?php endif; ?>
                 </div>
             </div>

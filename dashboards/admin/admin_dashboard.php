@@ -255,7 +255,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                 </a>
                 
                 <!-- Chat -->
-                <a href="chat.php" class="btn btn-light" style="font-weight:bolder; color:purple;">
+                <a href="/api/models/chat.php" class="btn btn-light" style="font-weight:bolder; color:purple;">
                     <i class="fa fa-comments"></i>
                 </a>
 
@@ -515,7 +515,15 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
         e.preventDefault();
         const userId = $(this).data('user-id');
         if (userId) {
-             window.location.href = `/api/profile_view.php?id=${userId}`;
+            window.location.href = `/api/profile_view.php?id=${userId}`;
+        }
+    });
+    // NEW: Open chat action (For message notifications)
+    $('#notificationsList').on('click', '.open-chat', function(e) {
+        e.preventDefault();
+        const userId = $(this).data('user-id');
+        if (userId) {
+            window.location.href = `/dashboards/users/chat.php?user_id=${userId}`;
         }
     });
     

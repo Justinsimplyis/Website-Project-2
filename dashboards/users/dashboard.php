@@ -253,7 +253,7 @@ if (empty($username)) {
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav m-auto mt-2 mt-lg-0"></ul>
                 <div class="d-flex align-items-center gap-2">   
-                    <a href="chat.php" class="btn btn-light my-2 my-sm-0" style="font-weight:bolder;color:purple;"><i class="fa fa-comments"></i></a>
+                    <a href="/api/models/chat.php" class="btn btn-light my-2 my-sm-0" style="font-weight:bolder;color:purple;"><i class="fa fa-comments"></i></a>
 
                     <div class="search-container">
                     <button class="btn btn-light" type="button" id="searchToggle">
@@ -498,7 +498,15 @@ if (empty($username)) {
         e.preventDefault();
         const userId = $(this).data('user-id');
         if (userId) {
-            window.location.href = `/api/profile_view.php?id=' . $user['id'] . '`;
+            window.location.href = `/api/profile_view.php?id=${userId}`;
+        }
+    });
+    // NEW: Open chat action (For message notifications)
+    $('#notificationsList').on('click', '.open-chat', function(e) {
+        e.preventDefault();
+        const userId = $(this).data('user-id');
+        if (userId) {
+            window.location.href = `/dashboards/users/chat.php?user_id=${userId}`;
         }
     });
     
