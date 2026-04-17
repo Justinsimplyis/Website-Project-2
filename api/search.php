@@ -3,14 +3,14 @@ session_start();
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: /public/auth/login.php");
     exit();
 }
 
  $user_id = $_SESSION['user_id'];
 
 //db connection
-include 'db_connection.php';
+include 'C:/Users/User/Documents/GitHub/Website-Project-2/database/db_connection.php';
 
  $search_results = [];
 
@@ -44,7 +44,7 @@ if (count($search_results) > 0) {
         echo '</div>';
         echo '</div>';
         echo '<div class="d-flex gap-1">';
-        echo '<a href="profile_view.php?id=' . $user['id'] . '" class="btn btn-sm btn-primary">View</a>';     
+        echo '<a href="api/profile_view.php?id=' . $user['id'] . '" class="btn btn-sm btn-primary">View</a>';     
         echo '</div>';
         echo '</div>';
     }

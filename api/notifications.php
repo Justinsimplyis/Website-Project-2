@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
  $user_id = $_SESSION['user_id'];
 
 // db connection
-include 'db_connection.php';
+include '../database/db_connection.php';
 
 // Handle AJAX actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

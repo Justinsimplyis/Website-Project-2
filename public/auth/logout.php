@@ -2,7 +2,7 @@
 // Start the session
 session_start();
 //db connection
-include 'db_connection.php';
+include 'C:/Users/User/Documents/GitHub/Website-Project-2/database/db_connection.php';
 
 if(isset($_SESSION['user_id'])) {
     // Mark user as logged out

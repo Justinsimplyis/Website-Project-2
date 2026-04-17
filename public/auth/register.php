@@ -1,5 +1,5 @@
 <?php
-include 'db_connection.php';
+include 'C:/Users/User/Documents/GitHub/Website-Project-2/database/db_connection.php';
 
 $message = "";
 $toastClass = "";

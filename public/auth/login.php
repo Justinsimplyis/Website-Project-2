@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_connection.php';
+include 'C:/Users/User/Documents/GitHub/Website-Project-2/database/db_connection.php';
 
 $message = "";
 $toastClass = "";
@@ -42,9 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // ROLE-BASED REDIRECTION
             if ($user['role'] === 'admin') {
-                header("Location: admin_dashboard.php");
+                header("Location: /../dashboards/admin/admin_dashboard.php");
             } else {
-                header("Location: dashboard.php");
+                header("Location: /../dashboards/users/dashboard.php");
             }
             exit();
 
@@ -147,6 +147,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         style="text-decoration: none;">Create Account</a></p>
             </div>
         </form>
+        <footer class="mt-5">
+            <p class="text-center text-muted">&copy; 2026 Your Company. All rights reserved. Created By: Justin Plaatjies</p>
+        </footer>
     </div>
     <script>
         var toastElList = [].slice.call(document.querySelectorAll('.toast'))
@@ -155,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
         toastList.forEach(toast => toast.show());
 
-        // ✅ Password visibility toggle
+        // Password visibility toggle
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
 
@@ -167,7 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         this.querySelector('i').classList.toggle('fa-eye-slash');
         this.querySelector('i').classList.toggle('fa-eye');
     });
-        // ✅ Login spinner logic
+        // Login spinner logic
         const loginForm = document.getElementById('loginForm');
         const loginBtn = document.getElementById('loginBtn');
         const spinner = document.getElementById('spinner');

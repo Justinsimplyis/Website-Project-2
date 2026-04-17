@@ -128,7 +128,7 @@ if (empty($username)) {
                 <div class="modal-body">Are you sure you want to logout?</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a href="logout.php" class="btn btn-danger">Yes, Logout</a>
+                    <a href="/public/auth/logout.php" class="btn btn-danger">Yes, Logout</a>
                 </div>
             </div>
         </div>

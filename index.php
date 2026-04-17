@@ -1,14 +1,14 @@
 <?php
-include 'db_connection.php';
+include 'database/db_connection.php';
 
 // If already logged in → redirect to correct dashboard
 if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
 
     if ($_SESSION['role'] === 'admin') {
-        header("Location: admin_dashboard.php");
+        header("Location: dashboards/admin/admin_dashboard.php");
         exit();
     } else {
-        header("Location: dashboard.php");
+        header("Location: dashboards/user/user_dashboard.php");
         exit();
     }
 }
@@ -39,8 +39,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
 
     <!--<a href="auth/login_and_registration.php" class="btn btn-success btn-custom">Get Started</a>-->
     <h1>Get Started</h1>
-    <a href="login.php" class="btn btn-success btn-custom">Login</a>
-    <a href="register.php" class="btn btn-outline-light btn-custom">Register</a>
+    <a href="public/auth/login.php" class="btn btn-success btn-custom">Login</a>
+    <a href="public/auth/register.php" class="btn btn-outline-light btn-custom">Register</a>
 
     <div class="footer">
         <p>System Status: 
@@ -52,10 +52,11 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
         }
         ?>
         </p>
-        <p>© <?php echo date("Y"); ?> </p>
+        <p>© <?php echo date("Y"); ?> Created By: Justin Plaatjies</p>
     </div>
 
 </div>
+
 
 </body>
 </html>

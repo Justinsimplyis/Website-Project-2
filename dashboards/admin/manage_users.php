@@ -1,10 +1,10 @@
 <?php
 session_start();
-include 'db_connection.php';
+include 'C:/Users/User/Documents/GitHub/Website-Project-2/database/db_connection.php';
 
 // Only admin can access
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: /public/auth/login.php");
     exit();
 }
 

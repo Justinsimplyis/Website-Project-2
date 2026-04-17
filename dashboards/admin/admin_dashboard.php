@@ -3,7 +3,7 @@ session_start();
 
 // Check if the user is logged in and is admin
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: /public/auth/login.php");
     exit();
 }
 
@@ -169,7 +169,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin';
                     Cancel
                 </button>
                 <!-- The actual link that processes the logout -->
-                <a href="logout.php" class="btn btn-danger" style="border-radius: 10px; font-weight: bold;">
+                <a href="/public/auth/logout.php" class="btn btn-danger" style="border-radius: 10px; font-weight: bold;">
                     <i class="fa fa-sign-out"></i> Yes, Logout
                 </a>
             </div>
@@ -220,7 +220,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin';
                 
                 if(searchTerm) {
                     $.ajax({
-                        url: 'search.php',
+                        url: '/api/search.php',
                         type: 'GET',
                         data: { search: searchTerm },
                         success: function(response) {

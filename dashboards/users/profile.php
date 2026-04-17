@@ -3,12 +3,12 @@ session_start();
 
 // Check if the user is logged in, if not then redirect them to the login page
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: /public/auth/login.php");
     exit();
 }
 
 // db connections
-include 'db_connection.php';
+include 'C:/Users/User/Documents/GitHub/Website-Project-2/database/db_connection.php';
 
 // Get user ID from session
  $user_id = $_SESSION['user_id'];

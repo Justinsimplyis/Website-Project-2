@@ -1,5 +1,5 @@
 <?php
-include 'db_connection.php';
+include 'C:/Users/User/Documents/GitHub/Website-Project-2/database/db_connection.php';
 
 $message = "";
 $toastClass = "";
@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 var email = $(this).val();
                 if (email) {
                     $.ajax({
-                        url: 'check_email.php',
+                        url: 'public/check_email.php',
                         type: 'POST',
                         data: { email: email },
                         success: function (response) {
