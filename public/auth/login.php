@@ -107,6 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           style="text-align: center; color: green;"></i>
                 <h5 class="text-center p-4" 
           style="font-weight: 700;">Login Into Your Account</h5>
+          <p class="text-center text-muted mb-4">Welcome back!</p>
             </div>
             <div class="col-mb-3">
                 <label for="email"><i 
@@ -138,13 +139,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </button>
 
             </div>
-            <p class="text-center"> <a href="reset_password.php"
-                        style="text-decoration: none;font-weight: 600;  ">Forgot Password</a></p>
-            <div class="col mb-2 mt-4">
-                <p class="text-center" 
+            <p class="text-center" 
                   style="font-weight: 600; color: navy;"
                   >Don't Have An Account? <a href="./register.php"
                         style="text-decoration: none;">Create Account</a></p>
+            <p class="text-center"> <a href="reset_password.php"
+                        style="text-decoration: none;font-weight: 600;  ">Forgot Password</a></p>
+            <div class="col mb-2 mt-4">
             </div>
         </form>
         <footer class="mt-5">

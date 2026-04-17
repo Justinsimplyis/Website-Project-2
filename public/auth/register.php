@@ -8,20 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-
-    //password strength validation 
-    if(
-        strlen($password) < 6 ||
-        !preg_match('/[A-Z]/', $password) ||
-        !preg_match('/[a-z]/', $password) ||
-        !preg_match('/[0-9]/', $password) ||
-        !preg_match('/[\W]/', $password)
-    ) {
-        $message = "Password must be at least 6 characters long and include uppercase, lowercase, number, and special character.";
-        $toastClass = "#dc3545"; // Danger color
-    } else {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);   
-    
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // Check if email already exists
     $checkEmailStmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
@@ -38,8 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("sss", $username, $email, $hashedPassword);
 
         if ($stmt->execute()) {
-            $message = "Account created successfully";
-            $toastClass = "#28a745"; // Success color
+            header("Location: login.php?registered=success");
+            exit();
         } else {
             $message = "Error: " . $stmt->error;
             $toastClass = "#dc3545"; // Danger color
@@ -48,9 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     }
 
-
     $checkEmailStmt->close();
-    }
     $conn->close();
 }
 ?>
@@ -71,6 +56,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <title>Registration</title>
 </head>
+<style>
+        .password-container {
+            position: relative;
+        }
+        .password-container input {
+            padding-right: 45px;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+            font-size: 16px;
+            z-index: 10;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+        .toggle-password:hover {
+            color: #495057;
+        }
+        .strength-meter {
+            height: 5px;
+            border-radius: 5px;
+            margin-top: 8px;
+            background-color: #e9ecef;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .strength-meter-fill {
+            height: 100%;
+            border-radius: 5px;
+            width: 0%;
+            transition: all 0.3s ease;
+        }
+        .strength-text {
+            font-size: 12px;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+        .strength-weak .strength-meter-fill {
+            width: 25%;
+            background-color: #dc3545;
+        }
+        .strength-weak .strength-text {
+            color: #dc3545;
+        }
+        .strength-fair .strength-meter-fill {
+            width: 50%;
+            background-color: #ffc107;
+        }
+        .strength-fair .strength-text {
+            color: #856404;
+        }
+        .strength-good .strength-meter-fill {
+            width: 75%;
+            background-color: #17a2b8;
+        }
+        .strength-good .strength-text {
+            color: #0c5460;
+        }
+        .strength-strong .strength-meter-fill {
+            width: 100%;
+            background-color: #28a745;
+        }
+        .strength-strong .strength-text {
+            color: #155724;
+        }
+    </style>
 
 <body class="bg-light">
     <div class="container p-5 d-flex flex-column align-items-center">
@@ -96,6 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="row text-center">
                 <i class="fa fa-user-circle-o fa-3x mt-1 mb-2" style="color: green;"></i>
                 <h5 class="p-4" style="font-weight: 700;">Create Your Account</h5>
+                <p class="text-center" style="font-weight: 600; color: navy;">Join us and get started!</p>
             </div>
             <div class="mb-2">
                 <label for="username"><i 
@@ -110,21 +167,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   class="form-control" required>
             </div>
             <div class="mb-2 mt-2">
-                <label for="password"><i class="fa fa-lock"></i>
-                 Password</label>
-
-                <div class="input-group">
-                        <input type="password" name="password" id="password" 
-                        class="form-control" required>
-
-                        <span class="input-group-text" id="togglePassword" style="cursor:pointer;">
-                            <i class="fa fa-eye-slash"></i>
-                            </span>
-                    </div>
-                    <div class="progress mt-2" style="height: 5px;">
-                        <div id="passwordStrengthBar" class="progress-bar" role="progressbar"></div>
-                    </div>
-                    <small id="passwordStrengthText" class="form-text"></small>
+                <label for="password"><i class="fa fa-lock"></i> Password</label>
+                <div class="password-container">
+                    <input type="password" name="password" id="password"
+                      class="form-control" required>
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">
+                        <i class="fa fa-eye-slash" id="toggleIcon"></i>
+                    </button>
+                </div>
+                <div class="strength-meter" id="strengthMeter">
+                    <div class="strength-meter-fill"></div>
+                </div>
+                <div class="strength-text" id="strengthText"></div>
             </div>
             <div class="mb-2 mt-3">
                 <button type="submit" 
@@ -138,73 +192,80 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         style="text-decoration: none;">Login</a></p>
             </div>
         </form>
+        <footer class="mt-4">
+            <p class="text-center" style="font-weight: 600; color: navy;">&copy; 2024 Your Company. All rights reserved. Created by: Justin Plaatjies</p>
+        </footer>
     </div>
     <script>
-        const passwordInput = document.getElementById('password');
-        const strengthBar = document.getElementById('passwordStrengthBar');
-        const strengthText = document.getElementById('passwordStrengthText');
-
-        passwordInput.addEventListener('input', function () {
-            const value = passwordInput.value;
-            let strength = 0;
-
-
-            // strength rules
-            if (value.length >= 6) strength++;
-            if (/[A-Z]/.test(value)) strength++;
-            if (/[a-z]/.test(value)) strength++;
-            if (/[0-9]/.test(value)) strength++;
-            if (/[\W]/.test(value)) strength++;
-
-            // Update UI
-            switch (strength) {
-                case 0:
-                case 1:
-            strengthBar.style.width = '20%';
-            strengthBar.className = 'progress-bar bg-danger';
-            strengthText.innerText = 'Weak password';
-            break;
-        case 2:
-            strengthBar.style.width = '40%';
-            strengthBar.className = 'progress-bar bg-warning';
-            strengthText.innerText = 'Fair password';
-            break;
-        case 3:
-            strengthBar.style.width = '60%';
-            strengthBar.className = 'progress-bar bg-info';
-            strengthText.innerText = 'Good password';
-            break;
-        case 4:
-            strengthBar.style.width = '80%';
-            strengthBar.className = 'progress-bar bg-primary';
-            strengthText.innerText = 'Strong password';
-            break;
-        case 5:
-            strengthBar.style.width = '100%';
-            strengthBar.className = 'progress-bar bg-success';
-            strengthText.innerText = 'Very strong password';
-            break;
-    }
-});
-
         let toastElList = [].slice.call(document.querySelectorAll('.toast'))
         let toastList = toastElList.map(function (toastEl) {
             return new bootstrap.Toast(toastEl, { delay: 3000 });
         });
         toastList.forEach(toast => toast.show());
+        // Password Toggle Visibility
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        }
 
-         // ✅ Password visibility toggle
-        const togglePassword = document.querySelector('#togglePassword');
-        const password = document.querySelector('#password');
+        // Password Strength Meter
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthMeter = document.getElementById('strengthMeter');
+            const strengthText = document.getElementById('strengthText');
+            
+            // Reset classes
+            strengthMeter.className = 'strength-meter';
+            strengthText.textContent = '';
+            
+            if (password.length === 0) {
+                return;
+            }
 
-        togglePassword.addEventListener('click', function () {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';            
-        password.setAttribute('type', type);
-
-        // Toggle icon
-        this.querySelector('i').classList.toggle('fa-eye-slash');
-        this.querySelector('i').classList.toggle('fa-eye');
-    });
+            // Calculate strength
+            let strength = 0;
+            
+            // Length checks
+            if (password.length >= 6) strength++;
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+            
+            // Character variety checks
+            if (/[a-z]/.test(password)) strength++; // lowercase
+            if (/[A-Z]/.test(password)) strength++; // uppercase
+            if (/[0-9]/.test(password)) strength++; // numbers
+            if (/[^a-zA-Z0-9]/.test(password)) strength++; // special characters
+            
+            // Determine strength level
+            let strengthLevel, strengthLabel;
+            
+            if (strength <= 2) {
+                strengthLevel = 'weak';
+                strengthLabel = 'Weak';
+            } else if (strength <= 4) {
+                strengthLevel = 'fair';
+                strengthLabel = 'Fair';
+            } else if (strength <= 5) {
+                strengthLevel = 'good';
+                strengthLabel = 'Good';
+            } else {
+                strengthLevel = 'strong';
+                strengthLabel = 'Strong';
+            }
+            
+            strengthMeter.classList.add('strength-' + strengthLevel);
+            strengthText.textContent = 'Password Strength: ' + strengthLabel;
+        });
     </script>
 </body>
 

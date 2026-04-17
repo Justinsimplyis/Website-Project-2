@@ -515,27 +515,11 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
         e.preventDefault();
         const userId = $(this).data('user-id');
         if (userId) {
-            window.location.href = `/public/profile.php?user_id=${userId}`;
+            window.location.href = `/api/profile_view.php?id=<?php echo $user['id']; ?>`;
         }
     });
     
-    // Open chat action
-    $('#notificationsList').on('click', '.open-chat', function(e) {
-        e.preventDefault();
-        const userId = $(this).data('user-id');
-        if (userId) {
-            window.location.href = `/public/chat.php?user_id=${userId}`;
-        }
-    });
     
-    // View post action
-    $('#notificationsList').on('click', '.view-post', function(e) {
-        e.preventDefault();
-        const postId = $(this).data('post-id');
-        if (postId) {
-            window.location.href = `/public/post.php?post_id=${postId}`;
-        }
-    });
     
     // ============================================
     // Search Functionality

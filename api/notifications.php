@@ -13,9 +13,9 @@ header('Content-Type: application/json');
  $user_id = (int) $_SESSION['user_id'];
 include 'C:/Users/User/Documents/GitHub/Website-Project-2/database/db_connection.php';
 
-
+// ============================================
 // POST Requests - Actions
-
+// ============================================
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
     
@@ -69,8 +69,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// ============================================
 // GET Requests - Data Fetching
-
+// ============================================
  $action = $_GET['action'] ?? 'list';
 
 switch ($action) {
@@ -93,7 +94,6 @@ switch ($action) {
         $notif_sql = "SELECT n.*, u.username AS sender_name, up.profile_image AS sender_avatar,
                       CASE 
                           WHEN n.type = 'message' THEN (SELECT message FROM messages WHERE id = n.related_id)
-                          WHEN n.type = 'chat_request' THEN (SELECT status FROM chat_requests WHERE id = n.related_id)
                           ELSE NULL
                       END AS extra_data
                       FROM notifications n
@@ -212,19 +212,8 @@ function buildNotificationContent($notif, $sender_id, $related_id) {
             return sprintf(
                 '<div class="notification-text text-muted"><strong>%s</strong> blocked you</div>',
                 $sender_name
-            );
-            
-        case 'like':
-            $post_btn = $related_id 
-                ? sprintf('<button class="btn btn-sm btn-outline-info view-post" data-post-id="%d">View Post</button>', $related_id)
-                : '';
-            return sprintf(
-                '<div class="notification-text"><strong>%s</strong> liked your post</div>
-                 <div class="mt-1">%s</div>',
-                $sender_name,
-                $post_btn
-            );
-            
+            );            
+
         case 'admin':
             return sprintf(
                 '<div class="notification-text"><strong class="text-warning">Admin</strong>: %s</div>',
